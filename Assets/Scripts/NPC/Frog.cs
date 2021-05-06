@@ -33,8 +33,7 @@ public class Frog : NPC
             {
                 int nextCrock = Random.Range(0, 3);
                 if (nextCrock > 1) CrockEvent.Invoke();
-            }
-            Debug.Log(nextMove);
+            } 
             yield return new WaitForSeconds(waitInterval);
         }
     }
