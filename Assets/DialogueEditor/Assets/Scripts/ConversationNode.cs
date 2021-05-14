@@ -72,6 +72,9 @@ namespace DialogueEditor
 
         /// <summary> UnityEvent, to betriggered when this Node starts. </summary>
         public UnityEngine.Events.UnityEvent Event;
+
+        /// <summary> UnityEvent, to betriggered when this Node ends. </summary>
+        public UnityEngine.Events.UnityEvent EventForEnds;
     }
 
 

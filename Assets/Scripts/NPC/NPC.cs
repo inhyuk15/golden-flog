@@ -3,14 +3,33 @@ using System.Collections.Generic;
 using UnityEngine;
 using DialogueEditor;
 
-public class NPC : MonoBehaviour
+public class NPC : MonoBehaviour, IInteractable
 {
     public NPCConversation m_NPCConversation;
-    private void OnMouseOver()
+    public bool IsInteracting { get; set; }
+
+    private void OnMouseDown()
     {
-        if (Input.GetMouseButtonDown(0))
+        if (!IsInteracting)
         {
             ConversationManager.Instance.StartConversation(m_NPCConversation);
+        }
+    }
+
+    public virtual void Interact()
+    {
+        if (!IsInteracting)
+        {
+            IsInteracting = true;
+        }
+    }
+
+    public virtual void StopInteract()
+    {
+        if (IsInteracting)
+        {
+            IsInteracting = false;
+            
         }
     }
 }

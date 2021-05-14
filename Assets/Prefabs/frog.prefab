@@ -1,5 +1,88 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &157715687
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 157715689}
+  - component: {fileID: 157715688}
+  m_Layer: 7
+  m_Name: StatusRenderer
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &157715689
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 157715687}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 1.5, z: 0}
+  m_LocalScale: {x: 0.6, y: 0.6, z: 1}
+  m_Children: []
+  m_Father: {fileID: 8109654698447066669}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!212 &157715688
+SpriteRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 157715687}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 5
+  m_Sprite: {fileID: 21300000, guid: 5839566006d117149b3a7dd28bd760a9, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_FlipX: 1
+  m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 1.875, y: 1.875}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
+  m_MaskInteraction: 0
+  m_SpriteSortPoint: 0
 --- !u!1 &8109654698447066640
 GameObject:
   m_ObjectHideFlags: 0
@@ -15,8 +98,9 @@ GameObject:
   - component: {fileID: 8109654698447066668}
   - component: {fileID: 8109654698447066665}
   - component: {fileID: 8109654698447066664}
+  - component: {fileID: 1485374872}
   m_Layer: 7
-  m_Name: frog
+  m_Name: Frog
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -34,6 +118,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1.057, z: 1}
   m_Children:
   - {fileID: 8109654699005109351}
+  - {fileID: 157715689}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -167,7 +252,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bfc070073f8982a4ab4c831e0f46a4ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_NPCConversation: {fileID: 0}
   CrockEvent:
     m_PersistentCalls:
       m_Calls:
@@ -214,6 +298,36 @@ MonoBehaviour:
         m_CallState: 2
   moveSpeed: 1
   jumpPower: 200
+--- !u!114 &1485374872
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8109654698447066640}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9e17749972ed49740b6bbb3b59600f51, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_NPCConversation: {fileID: 0}
+  quests:
+  - title: "\uB3C4\uB9DD\uCE5C \uBC8C\uB808"
+    description: "\uAC1C\uAD6C\uB9AC\uAC00 \uBC8C\uB808\uB97C \uC7A1\uC544\uC624\uB780\uB2E4."
+    collectObjectives:
+    - amount: 1
+      type: Cherry
+    killObjectives: []
+  - title: "\uB3C4\uB9DD\uCE5C \uADF8\uB140\uC11D"
+    description: "\uAC1C\uAD6C\uB9AC\uAC00 \uADF8\uB140\uC11D\uC744 \uB9CC\uB098"
+    collectObjectives:
+    - amount: 1
+      type: Cherry
+    killObjectives: []
+  question: {fileID: 21300000, guid: 2f5ce6f130354544595945a2ae32f854, type: 3}
+  questionSilver: {fileID: 21300000, guid: 033758636aff9fa4fa3d9466fc735396, type: 3}
+  exclamation: {fileID: 21300000, guid: 5839566006d117149b3a7dd28bd760a9, type: 3}
+  statusRenderer: {fileID: 157715688}
 --- !u!1 &8109654699005109352
 GameObject:
   m_ObjectHideFlags: 0

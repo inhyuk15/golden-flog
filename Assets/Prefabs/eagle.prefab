@@ -167,7 +167,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09b3b2ccf7dd27c4b8c7c79a88f095b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_Rigidbody2D: {fileID: 8192740571681675212}
   m_CheckGroundAhead: {fileID: 8192740573369528540}
+  m_SpriteRenderer: {fileID: 8192740571681675201}
   OnJumpEvent:
     m_PersistentCalls:
       m_Calls: []

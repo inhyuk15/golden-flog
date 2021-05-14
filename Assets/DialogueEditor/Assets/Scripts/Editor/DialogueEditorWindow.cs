@@ -391,8 +391,12 @@ namespace DialogueEditor
             // Clear our reffrence to the CurrentAsset on script reload in order to prevent 
             // save detection overwriting the object with an empty conversation (save triggerred 
             // with no uiNodes present in window due to recompile). 
-            Log("Scripts reloaded. Clearing current asset.");
-            ShowWindow().CurrentAsset = null;
+
+            // UPDATE 2021/04/23 - This is no longer neccessary as a better fix has been put in place. Thus, 
+            // this can be commented out, and this also prevents the window from opening up again after every recompile. 
+
+            //Log("Scripts reloaded. Clearing current asset.");
+            //ShowWindow().CurrentAsset = null;
         }
 
 
@@ -431,7 +435,10 @@ namespace DialogueEditor
             if (CurrentAsset == null)
             {
                 DrawTitleBar();
-                Repaint();
+                if (GUI.changed)
+                {
+                    Repaint();
+                }
                 return;
             }
 
@@ -641,29 +648,44 @@ namespace DialogueEditor
                     GUILayout.EndHorizontal();
                 }
 
-                GUILayout.Space(VERTICAL_GAP);
+                EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
 
 
                 // Default options
                 GUILayout.Label("Default Speech-Node values", panelTitleStyle);
 
-                float labelWidth = panelWidth * 0.3f;
+                float labelWidth = panelWidth * 0.4f;
+                float fieldWidth = panelWidth * 0.6f;
 
                 EditorGUILayout.BeginHorizontal();
-                EditorGUILayout.LabelField("Name:", GUILayout.MinWidth(labelWidth), GUILayout.MaxWidth(labelWidth));
-                CurrentAsset.DefaultName = EditorGUILayout.TextField(CurrentAsset.DefaultName);
+                EditorGUILayout.LabelField("Default Name:", GUILayout.MinWidth(labelWidth), GUILayout.MaxWidth(labelWidth));
+                CurrentAsset.DefaultName = EditorGUILayout.TextField(CurrentAsset.DefaultName, GUILayout.MaxWidth(fieldWidth));
                 EditorGUILayout.EndHorizontal();
 
                 EditorGUILayout.BeginHorizontal();
-                EditorGUILayout.LabelField("Icon:", GUILayout.MinWidth(labelWidth), GUILayout.MaxWidth(labelWidth));
-                CurrentAsset.DefaultSprite = (Sprite)EditorGUILayout.ObjectField(CurrentAsset.DefaultSprite, typeof(Sprite), false);
+                EditorGUILayout.LabelField("Default Icon:", GUILayout.MinWidth(labelWidth), GUILayout.MaxWidth(labelWidth));
+                CurrentAsset.DefaultSprite = (Sprite)EditorGUILayout.ObjectField(CurrentAsset.DefaultSprite, typeof(Sprite), false, GUILayout.MaxWidth(fieldWidth));
                 EditorGUILayout.EndHorizontal();
 
                 EditorGUILayout.BeginHorizontal();
-                EditorGUILayout.LabelField("Font:", GUILayout.MinWidth(labelWidth), GUILayout.MaxWidth(labelWidth));
-                CurrentAsset.DefaultFont = (TMPro.TMP_FontAsset)EditorGUILayout.ObjectField(CurrentAsset.DefaultFont, typeof(TMPro.TMP_FontAsset), false);
+                EditorGUILayout.LabelField("Default Font:", GUILayout.MinWidth(labelWidth), GUILayout.MaxWidth(labelWidth));
+                CurrentAsset.DefaultFont = (TMPro.TMP_FontAsset)EditorGUILayout.ObjectField(CurrentAsset.DefaultFont, typeof(TMPro.TMP_FontAsset), false, GUILayout.MaxWidth(fieldWidth));
                 EditorGUILayout.EndHorizontal();
 
+                EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
+
+                // Font options
+                GUILayout.Label("'Continue' and 'End' button font", panelTitleStyle);
+
+                EditorGUILayout.BeginHorizontal();
+                EditorGUILayout.LabelField("'Continue' font:", GUILayout.MinWidth(labelWidth), GUILayout.MaxWidth(labelWidth));
+                CurrentAsset.ContinueFont = (TMPro.TMP_FontAsset)EditorGUILayout.ObjectField(CurrentAsset.ContinueFont, typeof(TMPro.TMP_FontAsset), false, GUILayout.MaxWidth(fieldWidth));
+                EditorGUILayout.EndHorizontal();
+
+                EditorGUILayout.BeginHorizontal();
+                EditorGUILayout.LabelField("'End' font:", GUILayout.MinWidth(labelWidth), GUILayout.MaxWidth(labelWidth));
+                CurrentAsset.EndConversationFont = (TMPro.TMP_FontAsset)EditorGUILayout.ObjectField(CurrentAsset.EndConversationFont, typeof(TMPro.TMP_FontAsset), false, GUILayout.MaxWidth(fieldWidth));
+                EditorGUILayout.EndHorizontal();
             }
             else
             {
@@ -730,6 +752,7 @@ namespace DialogueEditor
                             if (differentNodeSelected)
                             {
                                 CurrentAsset.Event = NodeEvent.Event;
+                                CurrentAsset.EventForEnds = NodeEvent.EventForEnds;
                             }
 
                             if (NodeEvent != null && NodeEvent.Event != null)
@@ -744,6 +767,27 @@ namespace DialogueEditor
 
                                 // Draw dummy event
                                 GUILayout.Label("Events:", EditorStyles.boldLabel);
+                                EditorGUILayout.PropertyField(p2);
+
+                                // Apply changes to dummy
+                                o2.ApplyModifiedProperties();
+
+                                // Copy dummy changes onto the nodes event
+                                p = p2;
+                                o.ApplyModifiedProperties();
+                            }
+                            if (NodeEvent != null && NodeEvent.EventForEnds != null)
+                            {
+                                // Load the object and property of the node
+                                SerializedObject o = new SerializedObject(NodeEvent);
+                                SerializedProperty p = o.FindProperty("EventForEnds");
+
+                                // Load the dummy event
+                                SerializedObject o2 = new SerializedObject(CurrentAsset);
+                                SerializedProperty p2 = o2.FindProperty("EventForEnds");
+
+                                // Draw dummy event
+                                GUILayout.Label("EventsForEnds( for only quest ) :", EditorStyles.boldLabel);
                                 EditorGUILayout.PropertyField(p2);
 
                                 // Apply changes to dummy

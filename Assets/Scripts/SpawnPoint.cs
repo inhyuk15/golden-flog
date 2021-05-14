@@ -5,12 +5,12 @@ using UnityEngine;
 public class SpawnPoint : MonoBehaviour
 {
     [SerializeField] Collider2D m_Collider2D;
-    [SerializeField] GameObject enemy;
+    [SerializeField] public GameObject m_Prefab;
 
     public int EnemyCnt = 3;
-    private int m_EnemyCnt = 0;
+    protected int m_EnemyCnt = 0;
 
-    float m_width, m_height;
+    protected float m_width, m_height;
     // Start is called before the first frame update
     void Start()
     {
@@ -20,12 +20,13 @@ public class SpawnPoint : MonoBehaviour
         StartCoroutine(CreateEnemy());
     }
 
-    IEnumerator CreateEnemy()
+    protected virtual IEnumerator CreateEnemy()
     {
         while(m_EnemyCnt < EnemyCnt)
         {
             float yPos = transform.position.y + Random.Range(-m_height, m_height) / 2, xPos = transform.position.x + Random.Range(-m_width, m_width) / 2;
-            Instantiate(enemy, new Vector2(xPos, yPos), Quaternion.identity);
+
+            Instantiate(m_Prefab, new Vector2(xPos, yPos), Quaternion.identity);
             m_EnemyCnt++;
             yield return new WaitForSeconds(.5f);
         }

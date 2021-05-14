@@ -22,7 +22,7 @@ public class GameManager : MonoBehaviour
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         Player = GameObject.Find("Player");
-        StartPoint = GameObject.Find("StartPoint").transform.GetChild(0).transform;
+        StartPoint = GameObject.Find("StartPoint").transform;
         Portal = GameObject.Find("Portal").transform.GetChild(0).transform;
     }
 

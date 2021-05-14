@@ -4,10 +4,11 @@ using UnityEngine;
 using UnityEngine.Events;
 
 
-public class Frog : NPC
+public class Frog : MonoBehaviour
 {
     NPC_Controller m_NPC_Controller;
     Animator m_Animator;
+    SpriteRenderer m_SpriteRenderer;
 
     public UnityEvent CrockEvent;
 
@@ -16,6 +17,8 @@ public class Frog : NPC
         transform.localScale = new Vector2(transform.localScale.x * -1, transform.localScale.y);
         m_NPC_Controller = GetComponent<NPC_Controller>();
         m_Animator = GetComponent<Animator>();
+        m_SpriteRenderer = GetComponent<SpriteRenderer>();
+
         StartCoroutine(Roaming());
     }
 
@@ -48,5 +51,13 @@ public class Frog : NPC
         m_Animator.SetTrigger("crock");
     }
 
+    public void SetColor(Color color)
+    {
+        m_SpriteRenderer.material.color = color;
+    }
 
+    public void Flip(bool flip)
+    {
+        m_SpriteRenderer.flipX = flip;
+    }
 }

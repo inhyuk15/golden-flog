@@ -39,9 +39,12 @@ namespace DialogueEditor
         [SerializeField] public TMPro.TMP_FontAsset DefaultFont;
         [FormerlySerializedAs("Events")]
         [SerializeField] private List<NodeEventHolder> NodeSerializedDataList;
+        [SerializeField] public TMPro.TMP_FontAsset ContinueFont;
+        [SerializeField] public TMPro.TMP_FontAsset EndConversationFont;
 
         // Runtime vars
         public UnityEngine.Events.UnityEvent Event;
+        public UnityEngine.Events.UnityEvent EventForEnds;
         public List<EditableParameter> ParameterList; // Serialized into the json string
 
         
@@ -75,6 +78,7 @@ namespace DialogueEditor
             NodeEventHolder h = EventInfo.gameObject.AddComponent<NodeEventHolder>();
             h.NodeID = id;
             h.Event = new UnityEngine.Events.UnityEvent();
+            h.EventForEnds = new UnityEngine.Events.UnityEvent();
             NodeSerializedDataList.Add(h);
             return h;
         }
@@ -160,6 +164,7 @@ namespace DialogueEditor
 
             // Clear our dummy event
             Event = new UnityEngine.Events.UnityEvent();
+            EventForEnds = new UnityEngine.Events.UnityEvent();
 
             // Reconstruct
             ReconstructEditableConversation(conversation);
@@ -331,6 +336,10 @@ namespace DialogueEditor
             // Construct the parameters
             CreateParameters(ec, conversation);
 
+            // Construct the Conversation-Based variables (not node-based)
+            conversation.ContinueFont = this.ContinueFont;
+            conversation.EndConversationFont = this.EndConversationFont;
+
             // Create a dictionary to store our created nodes by UID
             Dictionary<int, SpeechNode> speechByID = new Dictionary<int, SpeechNode>();
             Dictionary<int, OptionNode> optionsByID = new Dictionary<int, OptionNode>();
@@ -394,6 +403,7 @@ namespace DialogueEditor
             if (holder != null)
             {
                 speech.Event = holder.Event;
+                speech.EventForEnds = holder.EventForEnds;
             }
 
             return speech;
