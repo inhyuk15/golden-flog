@@ -237,7 +237,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 11421782, guid: 5f254271b254145adad88f901e3bc9dc, type: 3}
       propertyPath: m_Text
-      value: "\uAC1C\uAD6C\uB9AC! \uAC1C\uAD6C\uB9AC!"
+      value: "\uC81C\uBAA9 \uBB50\uB85C \uD574\uC57C\uD568"
       objectReference: {fileID: 0}
     - target: {fileID: 11421782, guid: 5f254271b254145adad88f901e3bc9dc, type: 3}
       propertyPath: m_Color.b

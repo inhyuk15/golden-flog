@@ -7,7 +7,6 @@ public class GameManager : MonoBehaviour
 {
     GameObject Player;
     Transform StartPoint;
-    Transform Portal;
     // Start is called before the first frame update
     void Start()
     {
@@ -23,7 +22,6 @@ public class GameManager : MonoBehaviour
     {
         Player = GameObject.Find("Player");
         StartPoint = GameObject.Find("StartPoint").transform;
-        Portal = GameObject.Find("Portal").transform.GetChild(0).transform;
     }
 
     // Update is called once per frame
@@ -41,6 +39,5 @@ public class GameManager : MonoBehaviour
     void GoPrevStage()
     {
         SceneManager.LoadScene("Stage" + (int.Parse(SceneManager.GetActiveScene().name.Substring(5,1)) - 1));
-        Player.transform.position = Portal.position;
     }
 }

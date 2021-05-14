@@ -6,27 +6,34 @@ using UnityEngine.Events;
 public class Player_Controller : MonoBehaviour
 {
     [SerializeField] private LayerMask m_WhatIsGround;
+    [SerializeField] private LayerMask m_WhatIsLadder;
     [SerializeField] private Transform m_GroundCheck;
     [SerializeField] private Transform m_CeilingCheck;
     [SerializeField] private bool m_AirControl = false;
     [SerializeField] private Collider2D m_CrouchDisabledCollider;
 
 
+
     Rigidbody2D m_rigidbody2D;
 
 
     private bool m_Grounded;
-    
+    public bool m_OnLaddered;
 
     private float k_GroundedRadius = 0.1f;
     private float k_CeilingRadius = 0.1f;
 
+    [Header("Events")]
+    [Space]
+    public UnityEvent OnLandEvent;
     [System.Serializable]
     public class BoolEvent : UnityEvent<bool> { };
 
-    public UnityEvent OnLandEvent;
     public BoolEvent OnCrouchEvent;
     public UnityEvent OnJumpEvent;
+
+    public BoolEvent OnClimbEvent;
+    public BoolEvent OnLadderEvent;
 
     private bool wasCrouching = false;
     private bool canStand = true;
@@ -34,13 +41,16 @@ public class Player_Controller : MonoBehaviour
     private void Awake()
     {
         m_rigidbody2D = GetComponent<Rigidbody2D>();
-
         if(OnLandEvent == null)
             OnLandEvent = new UnityEvent();
         if (OnCrouchEvent == null)
             OnCrouchEvent = new BoolEvent();
         if (OnJumpEvent == null)
             OnJumpEvent = new UnityEvent();
+        if (OnClimbEvent == null)
+            OnClimbEvent = new BoolEvent();
+        if (OnLadderEvent == null)
+            OnLadderEvent = new BoolEvent();
     }
 
     // Update is called once per frame
@@ -54,13 +64,11 @@ public class Player_Controller : MonoBehaviour
         bool wasGrounded = m_Grounded;
         m_Grounded = false;
 
-        
         Collider2D[] ground_colliders = Physics2D.OverlapCircleAll(m_GroundCheck.position, k_GroundedRadius, m_WhatIsGround);
         for(int i= 0; i< ground_colliders.Length; i++)
         {
-            if(ground_colliders[i].gameObject != gameObject)
+            if(ground_colliders[i].gameObject != this.gameObject)
             {
-                
                 m_Grounded = true;
                 if (!wasGrounded)
                 {
@@ -68,6 +76,27 @@ public class Player_Controller : MonoBehaviour
                 }
             }
         }
+
+
+        Collider2D[] ladder_colliders = Physics2D.OverlapCircleAll(m_GroundCheck.position, k_GroundedRadius, m_WhatIsLadder);
+        for (int i = 0; i < ladder_colliders.Length; i++)
+        {
+            if (ladder_colliders[i].gameObject != this.gameObject)
+            {
+                m_OnLaddered = true;
+                OnLadderEvent.Invoke(true);
+            }
+        }
+
+        if(ladder_colliders.Length == 0)
+        {
+            m_OnLaddered = false;
+            // 사다리에서 벗어난 경우
+            OnLadderEvent.Invoke(false);
+            OnClimbEvent.Invoke(false);
+        }
+
+
 
         if (!wasGrounded && !m_Grounded)
         {
@@ -79,7 +108,7 @@ public class Player_Controller : MonoBehaviour
         canStand = true;
         for (int i=0; i< ceiling_colliders.Length; i++)
         {
-            if(ceiling_colliders[i].gameObject != gameObject)
+            if(ceiling_colliders[i].gameObject != this.gameObject)
             {
                 if (wasCrouching)
                 {
@@ -93,20 +122,19 @@ public class Player_Controller : MonoBehaviour
     public float moveSpeed = 10f;
     public float jumpPower = 10f;
     public float crouchSpeed = 0.5f;
+    public float climbSpeed = 6f;
 
-    public void Movement(float move, bool jump, bool crouch)
+    public void Movement(float move, bool jump, bool crouch, bool climb, float climbDir)
     {
         // crouch
         if (m_Grounded)
-        {
+        {            
             if (crouch || !canStand)
             {
                 if (!wasCrouching)
                 {
                     wasCrouching = true;
                     OnCrouchEvent.Invoke(true);
-
-                
                 }
 
                 if (m_CrouchDisabledCollider != null)
@@ -136,9 +164,27 @@ public class Player_Controller : MonoBehaviour
         if (m_Grounded || m_AirControl)
         {
             m_rigidbody2D.velocity = new Vector2(move * moveSpeed, m_rigidbody2D.velocity.y);
-
         }
-        
+
+        // climb
+        if (m_OnLaddered && climb)
+        {
+            OnClimbEvent.Invoke(true);
+            if (climbDir != 0)
+            {
+                m_rigidbody2D.velocity = new Vector2(move * moveSpeed, climbSpeed * climbDir);
+            }
+            else if (climbDir == 0)
+            {
+                m_rigidbody2D.velocity = new Vector2(move * moveSpeed, 0);
+            }
+        }
+        else
+        {
+            OnClimbEvent.Invoke(false);
+        }
+
+
 
         // jump
         if (m_Grounded && jump)
