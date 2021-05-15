@@ -92,7 +92,7 @@ Transform:
   m_GameObject: {fileID: 6366840620401161060}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0.168, y: 1.556, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.9, y: 0.9, z: 1}
   m_Children:
   - {fileID: 6366840619608558191}
   - {fileID: 6366840619834173427}
@@ -184,6 +184,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 83f796daee6a4404a8557ffcbcab71d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_playerController: {fileID: 6366840620401161063}
+  speedX: 0
+  speedY: 0
+  velocity: {x: 0, y: 0}
 --- !u!114 &6366840620401161063
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -199,16 +203,20 @@ MonoBehaviour:
   m_WhatIsGround:
     serializedVersion: 2
     m_Bits: 256
+  m_WhatIsLadder:
+    serializedVersion: 2
+    m_Bits: 512
   m_GroundCheck: {fileID: 6366840619608558191}
   m_CeilingCheck: {fileID: 6366840619834173427}
   m_AirControl: 1
   m_CrouchDisabledCollider: {fileID: 6366840620401161068}
+  m_OnLaddered: 0
   OnLandEvent:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 6366840620401161062}
         m_TargetAssemblyTypeName: Player, Assembly-CSharp
-        m_MethodName: onLand
+        m_MethodName: OnLand
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -223,8 +231,8 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 6366840620401161062}
         m_TargetAssemblyTypeName: Player, Assembly-CSharp
-        m_MethodName: onCrouch
-        m_Mode: 1
+        m_MethodName: OnCrouch
+        m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -238,8 +246,38 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 6366840620401161062}
         m_TargetAssemblyTypeName: Player, Assembly-CSharp
-        m_MethodName: onJump
+        m_MethodName: OnJump
         m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  OnClimbEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 6366840620401161062}
+        m_TargetAssemblyTypeName: Player, Assembly-CSharp
+        m_MethodName: OnClimb
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  OnLadderEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 6366840620401161062}
+        m_TargetAssemblyTypeName: Player, Assembly-CSharp
+        m_MethodName: OnLadder
+        m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -251,6 +289,7 @@ MonoBehaviour:
   moveSpeed: 6
   jumpPower: 1200
   crouchSpeed: 0.5
+  climbSpeed: 6
 --- !u!95 &6366840620401161069
 Animator:
   serializedVersion: 3
@@ -283,7 +322,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.07063323, y: -0.015259087}
+  m_Offset: {x: 0.013314962, y: -0.015259087}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -294,7 +333,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1.1232563, y: 0.7763423}
+  m_Size: {x: 0.6195651, y: 0.7763423}
   m_EdgeRadius: 0
 --- !u!70 &6366840620401161065
 CapsuleCollider2D:
@@ -309,6 +348,6 @@ CapsuleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.10049307, y: -0.5024653}
-  m_Size: {x: 0.91400814, y: 0.96425474}
+  m_Offset: {x: -0.10049307, y: -0.63218087}
+  m_Size: {x: 0.5, y: 0.7594309}
   m_Direction: 0

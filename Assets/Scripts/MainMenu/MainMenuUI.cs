@@ -14,10 +14,6 @@ public class MainMenuUI : MonoBehaviour
 
     public bool OnStart = false;
 
-    private void Start()
-    {
-    }
-
 
 
     IEnumerator LoadScene()
@@ -59,8 +55,4 @@ public class MainMenuUI : MonoBehaviour
         yield return new WaitForSeconds(1f);
     }
 
-    public void Settings()
-    {
-
-    }
 }

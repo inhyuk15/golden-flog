@@ -64,6 +64,12 @@ AnimatorStateTransition:
   - m_ConditionMode: 1
     m_ConditionEvent: crouch
     m_EventTreshold: 0
+  - m_ConditionMode: 1
+    m_ConditionEvent: onGround
+    m_EventTreshold: 0
+  - m_ConditionMode: 2
+    m_ConditionEvent: onLadder
+    m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -6333917974711074215}
   m_Solo: 0
