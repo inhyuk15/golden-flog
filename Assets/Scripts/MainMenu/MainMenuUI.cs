@@ -7,6 +7,8 @@ using UnityEngine.SceneManagement;
 public class MainMenuUI : MonoBehaviour
 {
     [SerializeField]
+    public CanvasGroup MainMenuPanel;
+    [SerializeField]
     public CanvasGroup LoadingPanel;
 
     [SerializeField]
@@ -14,7 +16,10 @@ public class MainMenuUI : MonoBehaviour
 
     public bool OnStart = false;
 
-
+    private void Awake()
+    {
+        DontDestroyOnLoad(gameObject);
+    }
 
     IEnumerator LoadScene()
     {
@@ -39,8 +44,9 @@ public class MainMenuUI : MonoBehaviour
             if(ProgressBar.fillAmount >= 1f && operation.progress >= 0.9f)
             {
                 operation.allowSceneActivation = true;
-                yield return new WaitForSeconds(1f);
                 LoadingPanel.alpha = 0f;
+                MainMenuPanel.alpha = 0f;
+                yield return null;
             }
         }
     }

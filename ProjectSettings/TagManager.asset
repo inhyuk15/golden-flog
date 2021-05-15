@@ -44,3 +44,6 @@ TagManager:
   - name: UI
     uniqueID: 2295136533
     locked: 0
+  - name: SettingPanel
+    uniqueID: 982916657
+    locked: 0

@@ -1,16 +1,39 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.Events;
 
 public class SettingUI : MonoBehaviour
 {
     Animator m_Animator;
+
+    [SerializeField]
+    public Button SaveButton;
+
+    [SerializeField]
+    public CanvasGroup SettingPanelCanvasGroup;
+
+    private void Awake()
+    {
+        SaveData.Load();
+        
+    }
+
     // Start is called before the first frame update
     void Start()
     {
         m_Animator = GetComponent<Animator>();
     }
 
+    public void Open()
+    {
+
+        SettingPanelCanvasGroup.alpha = 1;
+        SettingPanelCanvasGroup.blocksRaycasts = true;
+        m_Animator.SetBool("open", true);
+    }
+    
 
     public void Close()
     {
@@ -19,10 +42,17 @@ public class SettingUI : MonoBehaviour
 
     private IEnumerator CloseAfterDelay()
     {
-        m_Animator.SetTrigger("close");
+        m_Animator.SetBool("open", false);
         yield return new WaitForSeconds(0.5f);
-        gameObject.SetActive(false);
-        m_Animator.ResetTrigger("close");
+        SettingPanelCanvasGroup.alpha = 0;
+        SettingPanelCanvasGroup.blocksRaycasts = false;
+
     }
 
+    // 이거도 잘못됨
+    public void Save()
+    {
+        UnityAction action = SaveData.Save;
+        SaveButton.onClick.AddListener(action);
+    }
 }
