@@ -16,6 +16,7 @@ public class Gem : MonoBehaviour
 
     void SetScore()
     {
+        ScoreManager.GetGem();
         Instantiate(m_FeedbackEffect, transform.position, Quaternion.identity);
         Destroy(gameObject);
     }

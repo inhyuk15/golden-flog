@@ -16,6 +16,7 @@ public class Cherry : MonoBehaviour
 
     void SetScore()
     {
+        ScoreManager.GetCherry();
         Instantiate(m_FeedbackEffect, transform.position, Quaternion.identity);
         Destroy(gameObject);
     }
