@@ -8,7 +8,7 @@ public class Enemy : MonoBehaviour
     {
         if (other.tag == "Player")
         {
-            other.SendMessage("SetDamage", 12);
+            other.SendMessage("SetDamage", 1);
         }
     }
 }

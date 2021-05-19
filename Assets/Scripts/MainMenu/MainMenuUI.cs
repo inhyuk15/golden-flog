@@ -25,6 +25,7 @@ public class MainMenuUI : MonoBehaviour
     {
         yield return null;
         LoadingPanel.alpha = 1;
+
         AsyncOperation operation = SceneManager.LoadSceneAsync("Stage1");
         operation.allowSceneActivation = false;
 
@@ -46,6 +47,7 @@ public class MainMenuUI : MonoBehaviour
                 operation.allowSceneActivation = true;
                 LoadingPanel.alpha = 0f;
                 MainMenuPanel.alpha = 0f;
+                MainMenuPanel.blocksRaycasts = false;
                 yield return null;
             }
         }

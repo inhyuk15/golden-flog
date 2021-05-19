@@ -24,6 +24,8 @@ public class SettingUI : MonoBehaviour
     void Start()
     {
         m_Animator = GetComponent<Animator>();
+        UnityAction action = SaveData.Save;
+        SaveButton.onClick.AddListener(action);
     }
 
     public void Open()
@@ -47,12 +49,5 @@ public class SettingUI : MonoBehaviour
         SettingPanelCanvasGroup.alpha = 0;
         SettingPanelCanvasGroup.blocksRaycasts = false;
 
-    }
-
-    // 이거도 잘못됨
-    public void Save()
-    {
-        UnityAction action = SaveData.Save;
-        SaveButton.onClick.AddListener(action);
     }
 }

@@ -21,6 +21,8 @@ public class Player : MonoBehaviour
     private bool crouch, move, jump, climb;
 
 
+    private int m_curLife;
+
     [SerializeField]
     private Vector2 velocity;
 
@@ -38,6 +40,8 @@ public class Player : MonoBehaviour
         {
             DontDestroyOnLoad(this.gameObject);
             instance = this;
+
+            m_curLife = ScoreManager.CurLife;
         }
         else
         {
@@ -136,9 +140,17 @@ public class Player : MonoBehaviour
         m_animator.SetBool("onLadder", _OnLadder);
     }
 
-    void SetDamage(float damage)
+    void SetDamage(int damage)
     {
         m_animator.SetTrigger("hurt");
+        m_curLife -= damage;
+        ScoreManager.CurLife = m_curLife;
+
+        if(m_curLife < 0)
+        {
+            GameManager.GameOver(true);
+            Destroy(gameObject);
+        }
     }
 
 }

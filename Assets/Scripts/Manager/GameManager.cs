@@ -66,4 +66,9 @@ public class GameManager : MonoBehaviour
     {
         SceneManager.LoadScene("Stage" + (int.Parse(SceneManager.GetActiveScene().name.Substring(5,1)) - 1));
     }
+
+    public void GameOver(bool over)
+    {
+        Debug.Log("Game Over");
+    }
 }
