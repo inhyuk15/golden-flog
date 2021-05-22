@@ -7,11 +7,11 @@ public class Player_Controller : MonoBehaviour
 {
     [SerializeField] private LayerMask m_WhatIsGround;
     [SerializeField] private LayerMask m_WhatIsLadder;
+    [SerializeField] private LayerMask m_WhatIsEnemy;
     [SerializeField] private Transform m_GroundCheck;
     [SerializeField] private Transform m_CeilingCheck;
     [SerializeField] private bool m_AirControl = false;
     [SerializeField] private Collider2D m_CrouchDisabledCollider;
-
 
 
     Rigidbody2D m_rigidbody2D;
@@ -19,6 +19,7 @@ public class Player_Controller : MonoBehaviour
 
     private bool m_Grounded;
     public bool m_OnLaddered;
+    private bool m_OnEnemy;
 
     private float k_GroundedRadius = 0.1f;
     private float k_CeilingRadius = 0.1f;
@@ -61,6 +62,7 @@ public class Player_Controller : MonoBehaviour
 
     private void FixedUpdate()
     {
+        // ground
         bool wasGrounded = m_Grounded;
         m_Grounded = false;
 
@@ -77,7 +79,7 @@ public class Player_Controller : MonoBehaviour
             }
         }
 
-
+        // ladder
         Collider2D[] ladder_colliders = Physics2D.OverlapCircleAll(m_GroundCheck.position, k_GroundedRadius, m_WhatIsLadder);
         for (int i = 0; i < ladder_colliders.Length; i++)
         {
@@ -103,6 +105,7 @@ public class Player_Controller : MonoBehaviour
             OnJumpEvent.Invoke();
         }
         
+        // ceiling
         Collider2D[] ceiling_colliders = Physics2D.OverlapCircleAll(m_CeilingCheck.position, k_CeilingRadius, m_WhatIsGround);
 
         canStand = true;
@@ -117,12 +120,25 @@ public class Player_Controller : MonoBehaviour
             }
         }
 
+        // enemy
+        Collider2D[] enemy_colliders = Physics2D.OverlapCircleAll(m_GroundCheck.position, k_CeilingRadius, m_WhatIsEnemy);
+
+        for(int i =0; i< enemy_colliders.Length; i++)
+        {
+            if(enemy_colliders[i].gameObject != this.gameObject)
+            {
+                m_OnEnemy = true;
+                enemy_colliders[i].GetComponentInParent<Enemy>().SetDamage(1);
+            }
+        }
+
     }
 
     public float moveSpeed = 10f;
     public float jumpPower = 10f;
     public float crouchSpeed = 0.5f;
     public float climbSpeed = 6f;
+
 
     public void Movement(float move, bool jump, bool crouch, bool climb, float climbDir)
     {
@@ -187,13 +203,18 @@ public class Player_Controller : MonoBehaviour
 
 
         // jump
-        if (m_Grounded && jump)
+        if ((m_Grounded && jump) || m_OnEnemy)
         {
+            m_rigidbody2D.velocity = new Vector2(m_rigidbody2D.velocity.x, 0);
+
             m_rigidbody2D.AddForce(new Vector2(0, jumpPower));
             m_Grounded = false;
-            OnJumpEvent.Invoke();
+            m_OnEnemy = false;
 
+            OnJumpEvent.Invoke();
         }
+
+
 
         // flip
         if (move > 0 && facingRight)

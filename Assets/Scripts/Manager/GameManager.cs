@@ -3,11 +3,19 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using System.IO;
+using Newtonsoft.Json;
 
 
 public class GameManager : MonoBehaviour
 {
-    Player Player;
+    public static GameManager instance;
+
+    [SerializeField]
+    GameObject PlayerPrefeb;
+    GameObject PlayerInstance;
+
+    [SerializeField]
     Transform StartPoint;
 
     [SerializeField]
@@ -24,11 +32,21 @@ public class GameManager : MonoBehaviour
     public int NumberSize = 15;
 
 
-    // Start is called before the first frame update
-    void Start()
+    public Transform playerPosition;
+
+    private void Awake()
     {
-        DontDestroyOnLoad(this.gameObject);
+        if(instance == null)
+        {
+            instance = this;
+            DontDestroyOnLoad(this.gameObject);
+        }
+        else
+        {
+            Destroy(this.gameObject); 
+        }
     }
+
 
     private void OnEnable()
     {
@@ -37,8 +55,39 @@ public class GameManager : MonoBehaviour
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        Player = GameObject.FindObjectOfType<Player>();
-        StartPoint = GameObject.Find("StartPoint").transform;
+        /*
+        if(scene.name != "MainMenu" && playerPosition == null)
+        {
+            playerPosition = GameObject.Find("StartPoint").GetComponent<Transform>();
+            Debug.Log("Go main");
+        }
+
+        string path = Application.dataPath + "/PlayerPosition.json";
+
+        // Save
+        if (scene.name == "MainMenu" && PlayerInstance != null)
+        {
+            playerPosition = PlayerInstance.GetComponent<Transform>();
+            string data = JsonConvert.SerializeObject(playerPosition);
+            File.WriteAllText(path, data);
+
+            Debug.Log("Save");
+            Destroy(PlayerInstance.gameObject);
+        }
+        // Load
+        else if (scene.name == "Stage1")
+        {
+            if (File.Exists(path) && PlayerInstance == null)
+            {
+                string jData = File.ReadAllText(path);
+                playerPosition = JsonConvert.DeserializeObject<Transform>(jData);
+                PlayerInstance = Instantiate(PlayerPrefeb, playerPosition.position, Quaternion.identity);
+                PlayerInstance.transform.position = playerPosition.position;
+
+                Debug.Log(PlayerInstance.transform.position);
+            }
+        }
+        */
     }
 
     void SetScore()
@@ -59,7 +108,7 @@ public class GameManager : MonoBehaviour
     void GoNextStage()
     {        
         SceneManager.LoadScene("Stage" + (int.Parse(SceneManager.GetActiveScene().name.Substring(5,1)) + 1));
-        Player.transform.position = StartPoint.position;
+        PlayerPrefeb.transform.position = StartPoint.position;
     }
 
     void GoPrevStage()

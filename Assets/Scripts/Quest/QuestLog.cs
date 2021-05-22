@@ -137,6 +137,8 @@ public class QuestLog : MonoBehaviour
 
     public void AbandonQuest()
     {
+        if (selected == null) return;
+
         //Removes the quest from the quest log
         //Remember to remove the quest from the quest list
 
@@ -151,8 +153,8 @@ public class QuestLog : MonoBehaviour
 
         }
 
-        if(selected != null)
-            RemoveQuest(selected.MyQuestScript);
+     
+        RemoveQuest(selected.MyQuestScript);
     }
 
     public void RemoveQuest(QuestScript qs)
@@ -177,4 +179,5 @@ public class QuestLog : MonoBehaviour
         });
         */
     }
+
 }

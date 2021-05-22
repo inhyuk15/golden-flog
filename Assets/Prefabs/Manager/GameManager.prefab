@@ -43,3 +43,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 97a2fde1440248f4a9240eaa9cc0701d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  PlayerPrefeb: {fileID: 6366840620401161062, guid: aa793b56e235e1a44af2f42c59eb59b4, type: 3}
+  m_ScoreText: {fileID: 0}
+  m_CherryText: {fileID: 0}
+  m_GemText: {fileID: 0}
+  m_LifeText: {fileID: 0}
+  ScoreSize: 50
+  NumberSize: 40

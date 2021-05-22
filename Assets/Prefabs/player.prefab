@@ -91,7 +91,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6366840620401161060}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.168, y: 1.556, z: 0}
+  m_LocalPosition: {x: -10.490001, y: -0.26999998, z: 0}
   m_LocalScale: {x: 0.9, y: 0.9, z: 1}
   m_Children:
   - {fileID: 6366840619608558191}
@@ -206,6 +206,9 @@ MonoBehaviour:
   m_WhatIsLadder:
     serializedVersion: 2
     m_Bits: 512
+  m_WhatIsEnemy:
+    serializedVersion: 2
+    m_Bits: 1024
   m_GroundCheck: {fileID: 6366840619608558191}
   m_CeilingCheck: {fileID: 6366840619834173427}
   m_AirControl: 1
@@ -348,6 +351,6 @@ CapsuleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.10049307, y: -0.63218087}
-  m_Size: {x: 0.5, y: 0.7594309}
+  m_Offset: {x: -0.10049307, y: -0.6053128}
+  m_Size: {x: 0.5, y: 0.7056945}
   m_Direction: 0

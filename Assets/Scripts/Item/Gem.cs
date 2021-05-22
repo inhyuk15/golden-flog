@@ -5,6 +5,7 @@ using UnityEngine;
 public class Gem : MonoBehaviour
 {
     [SerializeField] GameObject m_FeedbackEffect;
+    [SerializeField] AudioClip m_GettingSound;
 
     private void OnTriggerEnter2D(Collider2D other)
     {
@@ -18,6 +19,9 @@ public class Gem : MonoBehaviour
     {
         ScoreManager.GetGem();
         Instantiate(m_FeedbackEffect, transform.position, Quaternion.identity);
+        AudioSource.PlayClipAtPoint(m_GettingSound, transform.position, Settings.volume);
+
+
         Destroy(gameObject);
     }
 }

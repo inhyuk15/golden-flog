@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
-
+using DialogueEditor;
 
 public class Frog : MonoBehaviour
 {
@@ -12,12 +12,17 @@ public class Frog : MonoBehaviour
 
     public UnityEvent CrockEvent;
 
+    [SerializeField]
+    Color m_color;
+
     private void Awake()
     {
         transform.localScale = new Vector2(transform.localScale.x * -1, transform.localScale.y);
         m_NPC_Controller = GetComponent<NPC_Controller>();
         m_Animator = GetComponent<Animator>();
         m_SpriteRenderer = GetComponent<SpriteRenderer>();
+
+        m_SpriteRenderer.material.color = m_color;
 
         StartCoroutine(Roaming());
     }
@@ -60,4 +65,5 @@ public class Frog : MonoBehaviour
     {
         m_SpriteRenderer.flipX = flip;
     }
+
 }

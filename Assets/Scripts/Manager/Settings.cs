@@ -5,8 +5,10 @@ using UnityEngine;
 public class Settings
 {
     #region " setting " 관련
-    static public bool canSound = false;
+    static public bool canSound = true;
+    static public float volume = 1f;
     static public int langauge = 0;
+
     #endregion
 
     #region " stage " 관련

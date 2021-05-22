@@ -17,7 +17,6 @@ public class SettingUI : MonoBehaviour
     private void Awake()
     {
         SaveData.Load();
-        
     }
 
     // Start is called before the first frame update
@@ -30,7 +29,6 @@ public class SettingUI : MonoBehaviour
 
     public void Open()
     {
-
         SettingPanelCanvasGroup.alpha = 1;
         SettingPanelCanvasGroup.blocksRaycasts = true;
         m_Animator.SetBool("open", true);

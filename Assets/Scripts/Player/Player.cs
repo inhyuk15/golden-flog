@@ -26,6 +26,8 @@ public class Player : MonoBehaviour
     [SerializeField]
     private Vector2 velocity;
 
+    [SerializeField] public AudioClip m_JumpSound;
+
     private void OnEnable()
     {
         m_animator = GetComponent<Animator>();
@@ -42,6 +44,7 @@ public class Player : MonoBehaviour
             instance = this;
 
             m_curLife = ScoreManager.CurLife;
+            
         }
         else
         {
@@ -116,6 +119,7 @@ public class Player : MonoBehaviour
     public void OnLand()
     {
         jump = false;
+        jumping = false;
         m_animator.SetBool("onGround", true);
     }
 
@@ -124,10 +128,22 @@ public class Player : MonoBehaviour
         m_animator.SetBool("crouch", _crouch);
     }
 
+    private bool jumping = false;
     public void OnJump()
     {
         m_animator.SetBool("onGround", false);
         m_animator.SetBool("jump", true);
+
+        if (Settings.canSound && !jumping)
+        {
+            StartCoroutine(WaitAndJump());
+        }
+    }
+    IEnumerator WaitAndJump()
+    {
+        jumping = true;
+        AudioSource.PlayClipAtPoint(m_JumpSound, transform.position, Settings.volume);
+        yield return new WaitForSeconds(0.5f);
     }
 
     public void OnClimb(bool _climb)
@@ -140,17 +156,25 @@ public class Player : MonoBehaviour
         m_animator.SetBool("onLadder", _OnLadder);
     }
 
-    void SetDamage(int damage)
+    public void SetDamage(int damage)
     {
-        m_animator.SetTrigger("hurt");
+        
         m_curLife -= damage;
         ScoreManager.CurLife = m_curLife;
 
-        if(m_curLife < 0)
+        if (m_curLife <= 0)
         {
-            GameManager.GameOver(true);
+            GameManager.instance.GameOver(true);
+            foreach(Transform child in transform)
+            {
+                Destroy(child.gameObject);
+            }
             Destroy(gameObject);
         }
+
+
+        m_animator.SetTrigger("hurt");
+
     }
 
 }

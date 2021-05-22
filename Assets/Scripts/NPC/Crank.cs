@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DialogueEditor;
 
 public class Crank : MonoBehaviour
 {
@@ -16,6 +17,9 @@ public class Crank : MonoBehaviour
     private SpriteRenderer m_SpriteRenderer;
     [SerializeField]
     private Sprite m_NextSprite;
+
+    [SerializeField]
+    private QuestGiver frog;
 
     public void MakeBridge()
     {
@@ -34,6 +38,4 @@ public class Crank : MonoBehaviour
         
         Destroy(gameObject.GetComponent<QuestGiver>());
     }
-
-
 }

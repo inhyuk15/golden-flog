@@ -43,6 +43,7 @@ namespace DialogueEditor
         // Not exposed via custom inspector
         // 
         // Base panels
+        
         public RectTransform DialoguePanel;
         public RectTransform OptionsPanel;
         // Dialogue UI
@@ -88,12 +89,15 @@ namespace DialogueEditor
 
         private void Awake()
         {
+            
             // Destroy myself if I am not the singleton
             if (Instance != null && Instance != this)
             {
+                
                 GameObject.Destroy(this.gameObject);
+
             }
-            Instance = this;
+            else Instance = this;
 
             m_uiOptions = new List<UIConversationButton>();
 
@@ -104,7 +108,7 @@ namespace DialogueEditor
 
         private void OnDestroy()
         {
-            Instance = null;
+            //Instance = null;
         }
 
         private void Update()

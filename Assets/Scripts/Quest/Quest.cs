@@ -15,7 +15,8 @@ public class Quest
     private CollectObjective[] collectObjectives;
     [SerializeField]
     private KillObjective[] killObjectives;
-
+    [SerializeField]
+    private KillObjective[] reachObjectives;
 
     public QuestScript MyQuestScript {
         get;
@@ -64,6 +65,14 @@ public class Quest
         {
 
             foreach (Objective o in collectObjectives)
+            {
+                if (!o.IsComplete)
+                {
+                    return false;
+                }
+            }
+
+            foreach (Objective o in reachObjectives)
             {
                 if (!o.IsComplete)
                 {
@@ -136,12 +145,17 @@ public abstract class Objective
 [System.Serializable]
 public class CollectObjective : Objective
 {
-
 }
 
 
 [System.Serializable]
 public class KillObjective : Objective
+{
+
+}
+
+[System.Serializable]
+public class ReachObjective : Objective
 {
 
 }

@@ -30,4 +30,11 @@ public class ScoreManager
     {
         CurLife--;
     }
+
+    static public void DefeatEnemy(int score)
+    {
+        CurScore += score;
+    }
+
+    
 }

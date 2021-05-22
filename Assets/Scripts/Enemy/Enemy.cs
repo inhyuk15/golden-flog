@@ -4,12 +4,53 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
+    [SerializeField]
+    public GameObject Explore;
+    private bool isImmune = false;
+
+    [SerializeField]
+    public AudioClip m_DestroySound;
+
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.tag == "Player")
+        if (other.tag == "Player" && ScoreManager.CurLife > 0)
         {
-            other.SendMessage("SetDamage", 1);
+            if(!isImmune)
+            {
+                isImmune = true;
+                StartCoroutine(SetDamage(other));
+            }
         }
+    }
+
+    
+    IEnumerator SetDamage(Collider2D other)
+    {
+        other.gameObject.GetComponent<Player>().SetDamage(1);
+        yield return new WaitForSeconds(2f);
+        isImmune = false;
+    }
+
+    // Player에서 호출
+    public void SetDamage(int damage)
+    {
+        Instantiate(Explore, gameObject.transform);
+
+        // Score
+        ScoreManager.DefeatEnemy(30);
+        AudioSource.PlayClipAtPoint(m_DestroySound, transform.position, Settings.volume);
+
+        StartCoroutine(Destroy());
+    }
+
+    IEnumerator Destroy() {
+        yield return new WaitForSeconds(0.3f);
+
+        foreach (Transform child in gameObject.transform)
+        {
+            Destroy(child.gameObject);
+        }
+        Destroy(gameObject);
     }
 }
 

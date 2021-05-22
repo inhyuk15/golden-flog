@@ -6,32 +6,48 @@ using UnityEngine.SceneManagement;
 
 public class MainMenuUI : MonoBehaviour
 {
+    private static MainMenuUI instance;
+
     [SerializeField]
     public CanvasGroup MainMenuPanel;
     [SerializeField]
     public CanvasGroup LoadingPanel;
+    [SerializeField]
+    public CanvasGroup MainMenuBtn;
 
     [SerializeField]
     public QuantumTek.QuantumUI.QUI_Bar ProgressBar;
+
+    [SerializeField]
+    public AudioSource BackgroundAudio;
+    public AudioClip[] audioClips;
 
     public bool OnStart = false;
 
     private void Awake()
     {
-        DontDestroyOnLoad(gameObject);
+        if(instance == null)
+        {
+            instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(this.gameObject);
+        }
+        
     }
 
-    IEnumerator LoadScene()
+    IEnumerator LoadScene(string nextStage)
     {
         yield return null;
         LoadingPanel.alpha = 1;
 
-        AsyncOperation operation = SceneManager.LoadSceneAsync("Stage1");
+        AsyncOperation operation = SceneManager.LoadSceneAsync(nextStage);
         operation.allowSceneActivation = false;
 
         while (!operation.isDone)
         {
-            yield return new WaitForSeconds(1f);
             if(ProgressBar.fillAmount < 0.9f)
             {
                 ProgressBar.fillAmount = Mathf.MoveTowards(ProgressBar.fillAmount, 0.9f, Time.deltaTime);
@@ -45,17 +61,49 @@ public class MainMenuUI : MonoBehaviour
             if(ProgressBar.fillAmount >= 1f && operation.progress >= 0.9f)
             {
                 operation.allowSceneActivation = true;
-                LoadingPanel.alpha = 0f;
                 MainMenuPanel.alpha = 0f;
+                yield return new WaitForSeconds(1f);
+                LoadingPanel.alpha = 0f;
+                
                 MainMenuPanel.blocksRaycasts = false;
-                yield return null;
             }
+        }
+
+        if(nextStage == "MainMenu")
+        {
+            MainMenuPanel.alpha = 1f;
+            MainMenuPanel.blocksRaycasts = true;
+
+            MainMenuBtn.alpha = 0;
+            MainMenuBtn.blocksRaycasts = false;
+
+            BackgroundAudio.clip = audioClips[0];
+            if (Settings.canSound)
+                BackgroundAudio.Play();
+            else
+                BackgroundAudio.Stop();
+        }
+        else
+        {            
+            MainMenuBtn.alpha = 1f;
+            MainMenuBtn.blocksRaycasts = true;
+
+            BackgroundAudio.clip = audioClips[1];
+            if (Settings.canSound)
+                BackgroundAudio.Play();
+            else
+                BackgroundAudio.Stop();
         }
     }
 
     public void StartBtn()
     {
-        StartCoroutine(LoadScene());
+        StartCoroutine(LoadScene("Stage1"));
+    }
+
+    public void GoMainMenu()
+    {
+        StartCoroutine(LoadScene("MainMenu"));
     }
 
     IEnumerator WaitASecond()
@@ -63,4 +111,25 @@ public class MainMenuUI : MonoBehaviour
         yield return new WaitForSeconds(1f);
     }
 
+
+    // Setting
+    public void SetSound(bool sound)
+    {
+        Settings.canSound = sound;
+        if (sound)
+        {
+            BackgroundAudio.Play();
+        }
+        else
+        {
+            BackgroundAudio.Stop();
+        }
+    }
+
+    public void SetVolume(float sliderValue)
+    {
+        Settings.volume = sliderValue / 100;
+        
+        BackgroundAudio.volume = sliderValue / 100;
+    }
 }

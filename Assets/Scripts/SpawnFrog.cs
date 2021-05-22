@@ -14,6 +14,8 @@ public class SpawnFrog : SpawnPoint
             bool nextFlip = (Random.Range(0, 1) % 2 == 0 ? true : false);
 
             var frog = Instantiate(m_Prefab, new Vector2(xPos, yPos), Quaternion.identity).GetComponent<Frog>();
+            frog.transform.parent = gameObject.transform;
+
             frog.SetColor(FrogColor.colors[nextColor]);
             frog.Flip(nextFlip);
             
