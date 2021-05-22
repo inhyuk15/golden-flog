@@ -33,7 +33,8 @@ public class Crank : MonoBehaviour
             Instantiate(Bridge, nextPos.position, Quaternion.identity);
         }
 
-        m_SpriteRenderer.sprite = m_NextSprite;
+        if(m_SpriteRenderer != null && m_NextSprite != null)
+            m_SpriteRenderer.sprite = m_NextSprite;
 
         
         Destroy(gameObject.GetComponent<QuestGiver>());

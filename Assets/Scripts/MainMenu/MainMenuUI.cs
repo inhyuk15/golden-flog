@@ -22,6 +22,9 @@ public class MainMenuUI : MonoBehaviour
     public AudioSource BackgroundAudio;
     public AudioClip[] audioClips;
 
+    [SerializeField]
+    public CanvasGroup ClearPanel;
+
     public bool OnStart = false;
 
     private void Awake()
@@ -103,6 +106,8 @@ public class MainMenuUI : MonoBehaviour
 
     public void GoMainMenu()
     {
+        ClearPanel.alpha = 0;
+        ClearPanel.blocksRaycasts = false;
         StartCoroutine(LoadScene("MainMenu"));
     }
 
@@ -131,5 +136,13 @@ public class MainMenuUI : MonoBehaviour
         Settings.volume = sliderValue / 100;
         
         BackgroundAudio.volume = sliderValue / 100;
+    }
+
+    public void SetScoreZero()
+    {
+        ScoreManager.CurScore = 0;
+        ScoreManager.CurLife = 3;
+
+        SaveData.Save();
     }
 }
