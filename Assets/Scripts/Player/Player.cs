@@ -60,13 +60,15 @@ public class Player : MonoBehaviour
 
     void getInput()
     {
-        speedX = Input.GetAxis("Horizontal");
-        move = Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.RightArrow);
-        if(Input.GetKeyDown(KeyCode.UpArrow)) {
+        speedX = SimpleInput.GetAxis("Horizontal");
+        //move = SimpleInput.GetKey(KeyCode.LeftArrow) || SimpleInput.GetKey(KeyCode.RightArrow);
+        move = (speedX != 0) ? true : false;
+        if (SimpleInput.GetAxis("Vertical") > 0) {
             jump = true;
         }
 
-        crouch = Input.GetKey(KeyCode.DownArrow);
+        //crouch = SimpleInput.GetKey(KeyCode.DownArrow);
+        crouch = (SimpleInput.GetAxis("Vertical") < 0);
 
         m_animator.SetBool("move", move);
         m_animator.SetFloat("speedX", speedX);
@@ -78,11 +80,11 @@ public class Player : MonoBehaviour
         if (m_playerController.m_OnLaddered)
         {
             climbVelocity = 0f;
-            if (Input.GetKey(KeyCode.UpArrow))
+            if (SimpleInput.GetAxis("Vertical") > 0)
             {
                 climbVelocity = 1f;
             }
-            else if(Input.GetKey(KeyCode.DownArrow))
+            else if(SimpleInput.GetAxis("Vertical") < 0)
             {
                 climbVelocity = -1f;
             }
