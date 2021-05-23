@@ -18,10 +18,25 @@ public class Player : MonoBehaviour
     private float speedX, speedY;
     private float climbVelocity;
 
+    [SerializeField]
+    public AudioClip hurtSound;
+
+
     private bool crouch, move, jump, climb;
 
 
     private int m_curLife;
+    public int CurLife
+    {
+        get
+        {
+            return m_curLife;
+        }
+        set
+        {
+            m_curLife = value;
+        }
+    }
 
     [SerializeField]
     private Vector2 velocity;
@@ -130,7 +145,8 @@ public class Player : MonoBehaviour
         m_animator.SetBool("crouch", _crouch);
     }
 
-    private bool jumping = false;
+    public bool jumping = false;
+
     public void OnJump()
     {
         m_animator.SetBool("onGround", false);
@@ -138,13 +154,14 @@ public class Player : MonoBehaviour
 
         if (Settings.canSound && !jumping)
         {
-            StartCoroutine(WaitAndJump());
+            jumping = true;
+            AudioSource.PlayClipAtPoint(m_JumpSound, transform.position, Settings.volume);
+            //StartCoroutine(WaitAndJump());
         }
     }
     IEnumerator WaitAndJump()
     {
-        jumping = true;
-        AudioSource.PlayClipAtPoint(m_JumpSound, transform.position, Settings.volume);
+        
         yield return new WaitForSeconds(0.5f);
     }
 
@@ -158,25 +175,32 @@ public class Player : MonoBehaviour
         m_animator.SetBool("onLadder", _OnLadder);
     }
 
+    bool hurted = false;
     public void SetDamage(int damage)
     {
-        
         m_curLife -= damage;
         ScoreManager.CurLife = m_curLife;
+
+        if (Settings.canSound && !hurted)
+        {
+            StartCoroutine(WaitAndHurt());
+        }
 
         if (m_curLife <= 0)
         {
             GameManager.instance.GameOver(true);
-            foreach(Transform child in transform)
-            {
-                Destroy(child.gameObject);
-            }
-            Destroy(gameObject);
         }
 
 
         m_animator.SetTrigger("hurt");
 
+    }
+    IEnumerator WaitAndHurt()
+    {
+        hurted = true;
+        AudioSource.PlayClipAtPoint(hurtSound, transform.position, Settings.volume);
+        yield return new WaitForSeconds(0.5f);
+        hurted = false;
     }
 
 }

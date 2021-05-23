@@ -33,6 +33,10 @@ public class GameManager : MonoBehaviour
 
     public Transform playerPosition;
 
+    [SerializeField]
+    public AudioClip GameOverSound;
+
+
     private void Awake()
     {
         if(instance == null)
@@ -96,6 +100,8 @@ public class GameManager : MonoBehaviour
         m_LifeText.text = string.Format("{0}", ScoreManager.CurLife);
 
         m_ScoreText.text = string.Format("<size={1}>Score</size>\n<size={2}>{0}</size>", ScoreManager.CurScore, ScoreSize, NumberSize);
+
+
     }
 
     // Update is called once per frame
@@ -117,6 +123,14 @@ public class GameManager : MonoBehaviour
 
     public void GameOver(bool over)
     {
+        AudioSource.PlayClipAtPoint(GameOverSound, transform.position);
+
+        var startPosition = GameObject.Find("StartPoint").transform;
+        var PlayerPos = GameObject.Find("Player").transform;
+        PlayerPos.position = startPosition.position;
+
+        // 그냥 여기서 해야겠음
+        PlayerPos.gameObject.GetComponent<Player>().CurLife = 3;
         Debug.Log("Game Over");
     }
 }

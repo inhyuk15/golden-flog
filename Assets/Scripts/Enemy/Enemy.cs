@@ -11,6 +11,7 @@ public class Enemy : MonoBehaviour
     [SerializeField]
     public AudioClip m_DestroySound;
 
+
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.tag == "Player" && ScoreManager.CurLife > 0)
@@ -21,6 +22,19 @@ public class Enemy : MonoBehaviour
                 StartCoroutine(SetDamage(other));
             }
         }
+
+        if(ScoreManager.CurLife <= 0)
+        {
+            GameOver();
+        }
+    }
+
+    public void GameOver()
+    {
+        var panel = GameObject.Find("GameOverPanel").GetComponent<CanvasGroup>();
+        panel.gameObject.GetComponent<ClearPanelScore>().UpdateScore();
+        panel.alpha = 1;
+        panel.blocksRaycasts = true;
     }
 
     

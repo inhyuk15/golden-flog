@@ -187,7 +187,10 @@ MonoBehaviour:
   m_playerController: {fileID: 6366840620401161063}
   speedX: 0
   speedY: 0
+  hurtSound: {fileID: 8300000, guid: 5d11a2992d79f7b4c89367d8d06c7aab, type: 3}
   velocity: {x: 0, y: 0}
+  m_JumpSound: {fileID: 8300000, guid: aeb9b0c7691c3b945a62b76338891d64, type: 3}
+  jumping: 0
 --- !u!114 &6366840620401161063
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -208,7 +211,7 @@ MonoBehaviour:
     m_Bits: 512
   m_WhatIsEnemy:
     serializedVersion: 2
-    m_Bits: 1024
+    m_Bits: 3072
   m_GroundCheck: {fileID: 6366840619608558191}
   m_CeilingCheck: {fileID: 6366840619834173427}
   m_AirControl: 1

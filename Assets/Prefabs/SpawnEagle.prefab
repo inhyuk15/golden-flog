@@ -71,5 +71,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Collider2D: {fileID: 7962954458421762592}
-  enemy: {fileID: 0}
+  m_Prefab: {fileID: 8192740571681675210, guid: 4d349ba8dd8433147af73d6a89c70578, type: 3}
   EnemyCnt: 3

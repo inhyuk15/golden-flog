@@ -39,6 +39,8 @@ public class Player_Controller : MonoBehaviour
     private bool wasCrouching = false;
     private bool canStand = true;
 
+    Player player;
+
     private void Awake()
     {
         m_rigidbody2D = GetComponent<Rigidbody2D>();
@@ -52,12 +54,24 @@ public class Player_Controller : MonoBehaviour
             OnClimbEvent = new BoolEvent();
         if (OnLadderEvent == null)
             OnLadderEvent = new BoolEvent();
+
+        player = gameObject.GetComponent<Player>();
     }
 
     // Update is called once per frame
     void Update()
     {
         
+    }
+
+    bool landing = false;
+    IEnumerator LandAndWait()
+    {
+        Debug.Log("onLand");
+        landing = true;
+        OnLandEvent.Invoke();
+        yield return new WaitForSeconds(0.3f);
+        landing = false;
     }
 
     private void FixedUpdate()
@@ -72,9 +86,10 @@ public class Player_Controller : MonoBehaviour
             if(ground_colliders[i].gameObject != this.gameObject)
             {
                 m_Grounded = true;
-                if (!wasGrounded)
+                if (!wasGrounded && !landing)
                 {
-                    OnLandEvent.Invoke();
+                    //OnLandEvent.Invoke();
+                    StartCoroutine(LandAndWait());
                 }
             }
         }
@@ -133,6 +148,8 @@ public class Player_Controller : MonoBehaviour
         }
 
     }
+
+
 
     public float moveSpeed = 10f;
     public float jumpPower = 10f;
@@ -211,7 +228,10 @@ public class Player_Controller : MonoBehaviour
             m_Grounded = false;
             m_OnEnemy = false;
 
+
             OnJumpEvent.Invoke();
+            
+            
         }
 
 

@@ -24,6 +24,8 @@ public class MainMenuUI : MonoBehaviour
 
     [SerializeField]
     public CanvasGroup ClearPanel;
+    [SerializeField]
+    public CanvasGroup GameOverPanel;
 
     public bool OnStart = false;
 
@@ -108,6 +110,11 @@ public class MainMenuUI : MonoBehaviour
     {
         ClearPanel.alpha = 0;
         ClearPanel.blocksRaycasts = false;
+
+        GameOverPanel.alpha = 0;
+        GameOverPanel.blocksRaycasts = false;
+
+
         StartCoroutine(LoadScene("MainMenu"));
     }
 
@@ -144,5 +151,10 @@ public class MainMenuUI : MonoBehaviour
         ScoreManager.CurLife = 3;
 
         SaveData.Save();
+    }
+
+    public void ExitButton()
+    {
+        Application.Quit();
     }
 }
