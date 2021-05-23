@@ -67,7 +67,6 @@ public class Player_Controller : MonoBehaviour
     bool landing = false;
     IEnumerator LandAndWait()
     {
-        Debug.Log("onLand");
         landing = true;
         OnLandEvent.Invoke();
         yield return new WaitForSeconds(0.3f);

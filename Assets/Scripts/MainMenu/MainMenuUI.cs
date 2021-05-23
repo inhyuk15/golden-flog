@@ -84,7 +84,11 @@ public class MainMenuUI : MonoBehaviour
 
             BackgroundAudio.clip = audioClips[0];
             if (Settings.canSound)
+            {
+                BackgroundAudio.volume = Settings.volume;
                 BackgroundAudio.Play();
+            }
+                
             else
                 BackgroundAudio.Stop();
         }
@@ -130,6 +134,7 @@ public class MainMenuUI : MonoBehaviour
         Settings.canSound = sound;
         if (sound)
         {
+            BackgroundAudio.volume = Settings.volume;
             BackgroundAudio.Play();
         }
         else
