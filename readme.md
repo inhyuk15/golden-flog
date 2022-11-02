@@ -32,7 +32,7 @@ have fun getting heart and gold, diamond
 
 ## play video
 
-[![Video Label](http://img.youtube.com/vi/'XtwfyCR4_tQ'/0.jpg)](https://youtu.be/'XtwfyCR4_tQ')
+[![Video Label](http://img.youtube.com/vi/'J_9k4aUmeGk'/0.jpg)](https://youtu.be/'J_9k4aUmeGk')
 
 
 
